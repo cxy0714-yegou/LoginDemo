@@ -9,6 +9,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import android.view.View;
+import android.widget.Toast;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
+import android.widget.AdapterView;
+import android.widget.SimpleAdapter;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -29,11 +37,40 @@ public class HomeActivity extends AppCompatActivity {
         usernameTv.setText("欢迎: " + username);
         avatarIv.setImageResource(avatarResId);
 
-        // 3. 设置ListView（第5步会详细实现）
+        // 3. 设置ListView
         setupFriendListView();
     }
 
     private void setupFriendListView() {
-        // 代码将在第5步实现
+        // 1. 准备数据
+        List<Map<String, Object>> friendList = new ArrayList<>();
+        String[] friends = {"张三", "李四", "王五", "赵六"};
+        String[] statuses = {"在线", "离线", "忙碌", "在线"};
+
+        for (int i = 0; i < friends.length; i++) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("name", friends[i]);
+            map.put("status", statuses[i]);
+            friendList.add(map);
+        }
+
+        // 2. 创建适配器，将数据和布局项绑定
+        SimpleAdapter adapter = new SimpleAdapter(
+                this,
+                friendList,
+                R.layout.item_friend, // 需要创建一个新的布局文件 item_friend.xml
+                new String[]{"name", "status"}, // Map中的key
+                new int[]{R.id.textView_friend_name, R.id.textView_friend_status} // item_friend布局中的控件ID
+        );
+
+        // 3. 获取ListView并设置适配器
+        CustomListView listView = findViewById(R.id.listView_friends);
+        listView.setAdapter(adapter);
+
+        // 4. 设置项目点击事件
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            String selectedFriend = friends[position];
+            Toast.makeText(HomeActivity.this, "你点击了: " + selectedFriend, Toast.LENGTH_SHORT).show();
+        });
     }
 }

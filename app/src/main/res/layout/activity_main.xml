@@ -37,4 +37,9 @@ android:padding="20dp">
     android:text="登录"
     android:onClick="onLoginClick"/> <!-- 点击按钮执行登录 -->
 
+    <com.example.logindemo.CustomIconButton
+        android:id="@+id/my_custom_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"/>
 </LinearLayout>

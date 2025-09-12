@@ -1,0 +1,24 @@
+<!-- custom_icon_button.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/icon_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/xjmm"
+    android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/icon_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1433223"
+        android:textSize="12sp"
+        android:textColor="#333333"
+        android:layout_marginTop="4dp"/>
+
+</LinearLayout>
