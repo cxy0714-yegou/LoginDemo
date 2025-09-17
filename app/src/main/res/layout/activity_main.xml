@@ -1,45 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_light">
+
 <LinearLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:orientation="vertical"
-android:gravity="center"
-android:padding="20dp">
-
-<ImageView
-    android:id="@+id/imageView_avatar"
-    android:layout_width="80dp"
-    android:layout_height="80dp"
-    android:src="@drawable/cxy"
-    android:onClick="onAvatarClick"
-    android:layout_marginBottom="20dp"/>
-
-<EditText
-    android:id="@+id/editText_username"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:hint="用户名"
-    android:layout_marginBottom="10dp"/>
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp">
 
-<EditText
-    android:id="@+id/editText_password"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:hint="密码"
-    android:inputType="textPassword"
-    android:layout_marginBottom="20dp"/>
+    <!-- 应用标题 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="欢迎使用"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_primary"
+        android:layout_marginBottom="8dp"/>
+        
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="社交聊天应用"
+        android:textSize="16sp"
+        android:textColor="@color/text_secondary"
+        android:layout_marginBottom="32dp"/>
 
-<Button
-    android:id="@+id/button_login"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="登录"
-    android:onClick="onLoginClick"/> <!-- 点击按钮执行登录 -->
+    <!-- 头像选择区域 -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        app:cardCornerRadius="50dp"
+        app:cardElevation="8dp">
+        
+        <ImageView
+            android:id="@+id/imageView_avatar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/cxy"
+            android:onClick="onAvatarClick"
+            android:scaleType="centerCrop"
+            android:background="@color/background_card"/>
+    </androidx.cardview.widget.CardView>
 
+    <!-- 登录表单 -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp">
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+            
+            <EditText
+                android:id="@+id/editText_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="用户名"
+                android:textSize="16sp"
+                android:padding="16dp"
+                android:background="@drawable/edit_text_background"
+                android:layout_marginBottom="16dp"/>
+
+            <EditText
+                android:id="@+id/editText_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="密码"
+                android:inputType="textPassword"
+                android:textSize="16sp"
+                android:padding="16dp"
+                android:background="@drawable/edit_text_background"
+                android:layout_marginBottom="20dp"/>
+
+            <Button
+                android:id="@+id/button_login"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="登录"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:onClick="onLoginClick"
+                style="@style/CustomButton"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- 自定义图标按钮 -->
     <com.example.logindemo.CustomIconButton
         android:id="@+id/my_custom_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"/>
+        
 </LinearLayout>
+</ScrollView>
