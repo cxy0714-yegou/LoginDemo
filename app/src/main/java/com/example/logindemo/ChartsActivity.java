@@ -18,6 +18,15 @@ import java.util.List;
 import com.example.logindemo.database.DatabaseManager;
 import com.example.logindemo.entity.Friend;
 import com.example.logindemo.entity.Message;
+import com.example.logindemo.entity.DailyMessageCount;
+
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 public class ChartsActivity extends AppCompatActivity {
     
@@ -95,31 +104,74 @@ public class ChartsActivity extends AppCompatActivity {
         pieChart.animateY(1000);
         pieChart.invalidate();
     }
-    
+
     private void loadMessageData() {
-        // 这里简化处理，创建一些模拟数据
-        setupBarChart();
+        databaseManager.getDailyMessageCounts(userId, new DatabaseManager.DatabaseCallback<List<DailyMessageCount>>() {
+            @Override
+            public void onSuccess(List<DailyMessageCount> dailyCounts) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (dailyCounts != null && !dailyCounts.isEmpty()) {
+                            setupBarChart(dailyCounts);
+                        } else {
+                            // 处理没有消息数据的情况
+                            Toast.makeText(ChartsActivity.this, "暂无消息数据", Toast.LENGTH_SHORT).show();
+                            setupBarChart(new ArrayList<>()); // 传递空列表
+                        }
+                    }
+                });
+            }
+        });
     }
-    
-    private void setupBarChart() {
+
+    private void setupBarChart(List<DailyMessageCount> dailyCounts) {
         List<BarEntry> entries = new ArrayList<>();
-        
-        // 模拟每日消息数量数据
-        entries.add(new BarEntry(1f, 15f)); // 周一
-        entries.add(new BarEntry(2f, 23f)); // 周二
-        entries.add(new BarEntry(3f, 18f)); // 周三
-        entries.add(new BarEntry(4f, 31f)); // 周四
-        entries.add(new BarEntry(5f, 27f)); // 周五
-        entries.add(new BarEntry(6f, 12f)); // 周六
-        entries.add(new BarEntry(7f, 8f));  // 周日
-        
+        List<String> labels = new ArrayList<>();
+
+        for (int i = 0; i < dailyCounts.size(); i++) {
+            DailyMessageCount dailyCount = dailyCounts.get(i);
+            entries.add(new BarEntry(i, dailyCount.getCount()));
+            labels.add(dailyCount.getDay());
+        }
+
         BarDataSet dataSet = new BarDataSet(entries, "每日消息数量");
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-        
+
         BarData data = new BarData(dataSet);
         barChart.setData(data);
+
+        // 设置X轴标签
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setGranularity(1f);
+        xAxis.setLabelCount(labels.size());
+
         barChart.setDescription(null);
         barChart.animateY(1000);
         barChart.invalidate();
     }
+    
+   // private void setupBarChart() {
+   //     List<BarEntry> entries = new ArrayList<>();
+        
+        // 模拟每日消息数量数据
+   //     entries.add(new BarEntry(1f, 15f)); // 周一
+   //     entries.add(new BarEntry(2f, 23f)); // 周二
+   //     entries.add(new BarEntry(3f, 18f)); // 周三
+   //     entries.add(new BarEntry(4f, 31f)); // 周四
+   //     entries.add(new BarEntry(5f, 27f)); // 周五
+   //     entries.add(new BarEntry(6f, 12f)); // 周六
+   //     entries.add(new BarEntry(7f, 8f));  // 周日
+        
+   //     BarDataSet dataSet = new BarDataSet(entries, "每日消息数量");
+   //     dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        
+   //     BarData data = new BarData(dataSet);
+   //     barChart.setData(data);
+   //     barChart.setDescription(null);
+   //     barChart.animateY(1000);
+   //     barChart.invalidate();
+   // }
 }

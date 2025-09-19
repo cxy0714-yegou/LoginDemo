@@ -3,6 +3,11 @@ package com.example.logindemo.dao;
 import androidx.room.*;
 import com.example.logindemo.entity.Message;
 import java.util.List;
+import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
+import androidx.room.Query;
+import com.example.logindemo.entity.DailyMessageCount;
+
 
 @Dao
 public interface MessageDao {
@@ -35,8 +40,10 @@ public interface MessageDao {
     
     @Query("SELECT COUNT(*) FROM messages WHERE receiverId = :userId AND isRead = 0")
     int getUnreadMessageCount(int userId);
+
+    @Query("SELECT date(timestamp / 1000, 'unixepoch', 'localtime') as day, COUNT(*) as count " +
+            "FROM messages WHERE senderId = :userId OR receiverId = :userId " +
+            "GROUP BY day ORDER BY day")
+    List<DailyMessageCount> getDailyMessageCountsSync(int userId);
 }
-
-
-
 

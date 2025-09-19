@@ -1,6 +1,7 @@
 package com.example.logindemo.entity;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "messages")
@@ -14,7 +15,7 @@ public class Message {
     private int receiverId;
     private boolean isRead;
     private String messageType; // "text", "image", "file"
-    
+    @Ignore
     public Message() {}
     
     public Message(String content, int senderId, int receiverId, String messageType) {
@@ -48,6 +49,8 @@ public class Message {
     public String getMessageType() { return messageType; }
     public void setMessageType(String messageType) { this.messageType = messageType; }
 }
+
+
 
 
 

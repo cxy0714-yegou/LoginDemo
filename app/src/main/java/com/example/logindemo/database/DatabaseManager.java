@@ -6,6 +6,7 @@ import com.example.logindemo.entity.User;
 import com.example.logindemo.entity.Friend;
 import com.example.logindemo.entity.Message;
 import java.util.List;
+import com.example.logindemo.entity.DailyMessageCount;
 
 public class DatabaseManager {
     private AppDatabase database;
@@ -221,7 +222,7 @@ public class DatabaseManager {
             }
         }.execute();
     }
-    
+
     public void deleteMessage(Message message, DatabaseCallback<Void> callback) {
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -238,12 +239,36 @@ public class DatabaseManager {
             }
         }.execute();
     }
-    
+
+    // 在 DatabaseManager 类中添加以下方法
+    public void getDailyMessageCounts(int userId, DatabaseCallback<List<DailyMessageCount>> callback) {
+        new AsyncTask<Void, Void, List<DailyMessageCount>>() {
+            @Override
+            protected List<DailyMessageCount> doInBackground(Void... voids) {
+                try {
+                    // 注意：这里需要处理 LiveData 到普通列表的转换
+                    // 如果直接使用 LiveData，需要在 Activity 中观察
+                    return database.messageDao().getDailyMessageCountsSync(userId);
+                } catch (Exception e) {
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(List<DailyMessageCount> result) {
+                if (callback != null) {
+                    callback.onSuccess(result);
+                }
+            }
+        }.execute();
+    }
     // 回调接口
     public interface DatabaseCallback<T> {
         void onSuccess(T result);
     }
 }
+
+
 
 
 

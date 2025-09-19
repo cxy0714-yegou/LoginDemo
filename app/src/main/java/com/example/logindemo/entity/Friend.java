@@ -1,6 +1,7 @@
 package com.example.logindemo.entity;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "friends")
@@ -13,7 +14,7 @@ public class Friend {
     private int avatarResId;
     private long lastActiveTime;
     private int userId; // 关联的用户ID
-    
+    @Ignore
     public Friend() {}
     
     public Friend(String name, String status, int avatarResId, int userId) {
@@ -23,7 +24,7 @@ public class Friend {
         this.userId = userId;
         this.lastActiveTime = System.currentTimeMillis();
     }
-    
+
     // Getters and Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
@@ -43,6 +44,8 @@ public class Friend {
     public int getUserId() { return userId; }
     public void setUserId(int userId) { this.userId = userId; }
 }
+
+
 
 
 

@@ -1,6 +1,7 @@
 package com.example.logindemo.entity;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "users")
@@ -16,7 +17,7 @@ public class User {
     private boolean isOnline;
     
     public User() {}
-    
+    @Ignore
     public User(String username, String password, String email, int avatarResId) {
         this.username = username;
         this.password = password;
@@ -48,6 +49,8 @@ public class User {
     public boolean isOnline() { return isOnline; }
     public void setOnline(boolean online) { isOnline = online; }
 }
+
+
 
 
 
